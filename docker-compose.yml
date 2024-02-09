@@ -1,0 +1,31 @@
+version: '3.3'
+
+services:
+  api:
+    image: api_image
+    container_name: api_container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    restart: always
+    depends_on:
+      - db_postgres
+  
+  db_postgres:
+    image: postgres:14.10
+    container_name: postgres-dev
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "db_pedrin"
+      PGDATA: "/var/postgres/data"
+    volumes:
+      - pgdata-dev:/var/postgres/data
+
+volumes:
+  pgdata-dev:
+
