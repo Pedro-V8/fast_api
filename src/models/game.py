@@ -5,7 +5,7 @@ from src.models.base import Base
 from .company import Company
 
 class Game(Base):
-    __tablename__= "user"
+    __tablename__= "game"
     __table_args__ = {'extend_existing': True}
     
     id = Column(Integer, primary_key=True, index=True)
