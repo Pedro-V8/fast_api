@@ -9,9 +9,12 @@ class UserRepository:
 
     def get(self) -> User:
         return self.db.query(User).all()
+    
+    def get_one(self) -> User:
+        return self.db.query(User).filter_by(user)
 
     def create(self, data):
-        user_model = User(name=data.name , age=data.age)
+        user_model = User(name=data.name , age=data.age, email=data.email, password=data.password)
         self.db.add(user_model)
         self.db.commit()
         self.db.refresh(user_model)

@@ -9,6 +9,10 @@ class UserService:
         users = self.user_repository.get()
         return users
     
+    def get_user_by_username(self, username: str):
+        user = self.user_repository.get_one(username)
+        return user
+    
     def create_user(self, data):
         user = self.user_repository.create(data)
         
