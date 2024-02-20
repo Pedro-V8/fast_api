@@ -1,12 +1,13 @@
 from fastapi import FastAPI
-from src.routes import user, company, game
+from src.routes import user, company, game, announcement
 
 app = FastAPI()
 
 app.include_router(user.route)
 app.include_router(company.route)
 app.include_router(game.route)
+app.include_router(announcement.route)
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World2"}
+    return {"message": "Hello World"}
