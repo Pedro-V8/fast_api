@@ -1,21 +1,26 @@
+import enum
+
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Enum, Text, DateTime
 from sqlalchemy.sql import func
 from sqlalchemy.dialects.mysql import FLOAT
 from src.models.base import Base
 
-from .game import Game
+from .announcement import Announcement
 from .user import User
 
-
-class Announcement(Base):
-    __tablename__= "announcement"
-    __table_args__ = {'extend_existing': True}
+class StatusType(enum.Enum):
+    active = 0
+    paused = 1
+    finished = 2
+class Purchase(Base):
+    __tablename__= "purchase"
     
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String(150), nullable=False)
-    description = Column(String(500), nullable=False)
+    code = Column(Integer, nullable=False)
+    announcement_id = Column(ForeignKey("announcement.id"))
+    buyer_id = Column(ForeignKey("user.id"))
+    seller_id = Column(ForeignKey("user.id"))
     price = Column(FLOAT(precision=2))
-    user_id = Column(ForeignKey("user.id"))
-    game_id = Column(ForeignKey("game.id"))
+    status = Column(Enum(StatusType))
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 

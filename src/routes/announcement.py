@@ -9,7 +9,7 @@ route = APIRouter()
 def return_all_announcements(
     announcement_service: AnnouncementService = Depends(AnnouncementService)
 ):
-    response = announcement_service.get_Announcements()
+    response = announcement_service.get_announcements()
 
     return response
 
@@ -19,6 +19,6 @@ def create_Announcement(
     request_data: AnnouncementCreate,
     announcement_service: AnnouncementService = Depends(AnnouncementService)
 ):
-    response = announcement_service.create_game(request_data)
+    response = announcement_service.create_announcement(request_data)
 
     return response

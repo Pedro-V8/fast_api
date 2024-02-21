@@ -5,12 +5,12 @@ class AnnouncementService:
     def __init__(self , announcement_repository: AnnouncementRepository = Depends(AnnouncementRepository)):
         self.announcement_repository = announcement_repository
 
-    def get_games(self):
+    def get_announcements(self):
         announcements = self.announcement_repository.get()
         return announcements
 
     
-    def create_game(self, data):
+    def create_announcement(self, data):
         announcement = self.announcement_repository.create(data)
         
         return announcement
