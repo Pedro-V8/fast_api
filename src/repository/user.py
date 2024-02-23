@@ -10,8 +10,8 @@ class UserRepository:
     def get(self) -> User:
         return self.db.query(User).all()
     
-    def get_one(self) -> User:
-        return self.db.query(User).filter_by(user)
+    def get_one(self, username: str) -> User:
+        return self.db.query(User).filter_by(username)
 
     def create(self, data):
         user_model = User(name=data.name , age=data.age, email=data.email, password=data.password)
