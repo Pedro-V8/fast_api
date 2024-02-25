@@ -1,9 +1,13 @@
 from pydantic import BaseModel
 
-class Token(BaseModel):
+class TokenSchema(BaseModel):
     access_token: str
-    token_type: str
+    refresh_token: str
 
 
-class TokenData(BaseModel):
-    username: str or None = None
+class TokenCreate(BaseModel):
+    user_id:str
+    access_token:str
+    refresh_token:str
+    status:bool
+    created_date:datetime.datetime

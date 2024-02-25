@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from datetime import datetime, timedelta
 from src.services.user import UserService
-from src.schemas.user import UserBase, UserCreate
+from src.schemas.user import UserBase, UserCreate, LoginSchema
 
 
 route = APIRouter()
@@ -21,6 +21,15 @@ def create_user(
     user_service: UserService = Depends(UserService)
 ):
     response = user_service.create_user(request_data)
+
+    return response
+
+@route.post("/login")
+def login(
+    request_data: LoginSchema,
+    user_service: UserService = Depends(UserService)
+):
+    response = user_service.login(request_data)
 
     return response
 

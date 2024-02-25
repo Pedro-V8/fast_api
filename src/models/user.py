@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Enum, Text
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Enum, Text, DateTime
 from src.models.base import Base
 
 class User(Base):

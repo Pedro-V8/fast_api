@@ -1,12 +1,14 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Enum, Text
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Enum, Text, DateTime
+from sqlalchemy.sql import func
 from src.models.base import Base
+from src.models.user import User
 
-class User(Base):
+class Token(Base):
     __tablename__= "token"
     
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(50), nullable=False)
-    email = Column(String(100), nullable=False)
-    password = Column(String(100), nullable=False)
-    age = Column(Integer, nullable=False)
+    user_id = Column(Integer, ForeignKey("user.id"))
+    access_token = Column(String(450), primary_key=True)
+    refresh_token = Column(String(450),nullable=False)
+    status = Column(Boolean)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 

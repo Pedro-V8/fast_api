@@ -36,18 +36,19 @@ class UserService:
         return self.pwd_context.hash(password)
     
     def verify_password(self, password:str, hash_password: str) -> bool:
-        return self. pwd_context.verify(password, hash_password)
+        return self.pwd_context.verify(password, hash_password)
     
     def create_access_token(self, subject: Union[str, Any], expires_delta: int = None) -> str:
         if expires_delta is not None:
             expires_delta = datetime.utcnow() + expires_delta
-            
         else:
-            expires_delta = datetime.utcnow() + timedelta(minutes=os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
-            
+            expires_delta = datetime.utcnow() + timedelta(minutes=30)
         
+        
+            
         to_encode = {"exp": expires_delta, "sub": str(subject)}
-        encoded_jwt = jwt.encode(to_encode, os.getenv("SECRET_KEY"), os.getenv("ALGORITHM"))
+
+        encoded_jwt = jwt.encode(to_encode, "narscbjim@$@&^@&%^&RFghgjvbdsha", "HS256")
         
         return encoded_jwt
 
@@ -55,9 +56,30 @@ class UserService:
         if expires_delta is not None:
             expires_delta = datetime.utcnow() + expires_delta
         else:
-            expires_delta = datetime.utcnow() + timedelta(minutes=os.getenv("REFRESH_TOKEN_EXPIRE_MINUTES"))
+            expires_delta = datetime.utcnow() + timedelta(minutes=30)
         
         to_encode = {"exp": expires_delta, "sub": str(subject)}
-        encoded_jwt = jwt.encode(to_encode, os.getenv("REFRESH_SECRET_KEY"), os.getenv("ALGORITHM"))
+        encoded_jwt = jwt.encode(to_encode, "13ugfdfgh@#$%^@&jkl45678902", "HS256")
         return encoded_jwt
- 
+
+    def login(self, data):
+
+        user = self.user_repository.get_one(data.email)
+
+        if not user:
+            return False
+
+        hashed_pass = user.password
+
+        if not self.verify_password(data.password , hashed_pass):
+            return False
+        
+        access = self.create_access_token(user.id)
+        refresh = self.create_refresh_token(user.id)
+
+        self.user_repository.create_token(user.id, access, refresh)
+        
+        return {
+            "access_token": access,
+            "refresh_token": refresh,
+        }
