@@ -1,14 +1,16 @@
-from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from datetime import datetime, timedelta
+from fastapi import APIRouter, Depends
+from fastapi.security import OAuth2PasswordRequestForm
+from datetime import timedelta
 from src.services.user import UserService
-from src.schemas.user import UserBase, UserCreate, LoginSchema
+from src.services.auth import JWTBearer
+from src.schemas.user import UserCreate, LoginSchema
 
 
 route = APIRouter()
 
 @route.get("/users")
 def return_all_users(
+    dependencies=Depends(JWTBearer()),
     user_service: UserService = Depends(UserService)
 ):
     response = user_service.get_users()
