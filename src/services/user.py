@@ -1,7 +1,7 @@
 import os
 
 from datetime import datetime , timedelta
-from fastapi import Depends
+from fastapi import Depends, HTTPException, status
 from dotenv import load_dotenv
 from jose import JWTError, jwt
 from passlib.context import CryptContext
@@ -67,12 +67,15 @@ class UserService:
         user = self.user_repository.get_one(data.email)
 
         if not user:
-            return False
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Incorrect email")
 
         hashed_pass = user.password
 
         if not self.verify_password(data.password , hashed_pass):
-            return False
+            raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Incorrect password"
+        )
         
         access = self.create_access_token(user.id)
         refresh = self.create_refresh_token(user.id)
