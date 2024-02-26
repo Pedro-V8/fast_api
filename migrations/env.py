@@ -5,8 +5,12 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from src.models import Base
+from src.models.base import Base
 from src.models.user import User
+from src.models.game import Game
+from src.models.company import Company
+from src.models.announcement import Announcement
+from src.models.purchase import Purchase
 from src.models.token import Token
 
 # this is the Alembic Config object, which provides
