@@ -12,6 +12,7 @@ from src.models.company import Company
 from src.models.announcement import Announcement
 from src.models.purchase import Purchase
 from src.models.token import Token
+from src.models.image import Image
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
